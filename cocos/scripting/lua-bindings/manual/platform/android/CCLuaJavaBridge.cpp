@@ -525,6 +525,77 @@ int LuaJavaBridge::callLuaGlobalFunction(const char *functionName, const char *a
     return ret;
 }
 
+int LuaJavaBridge::getLuaGlobalFunction(const char *functionName)
+{
+    lua_State *L = s_luaState;
+
+    int top = lua_gettop(L);
+
+    lua_getglobal(L, functionName);
+    if (lua_isfunction(L, -1))
+    {
+        return top;
+    }
+
+    lua_settop(L, top);
+    return -1;
+}
+
+int LuaJavaBridge::executeFunction(int numargs, int top)
+{
+    lua_State *L = s_luaState;
+
+    int ret = -1;
+    int ok = lua_pcall(L, numargs, 1, 0);
+    if (ok == 0)
+    {
+        ret = lua_tonumber(L, -1);
+    }
+    else
+    {
+        ret = -ok;
+    }
+
+    lua_settop(L, top);
+    return ret;
+}
+
+void LuaJavaBridge::pushString(const char *arg)
+{
+    lua_State *L = s_luaState;
+    lua_pushstring(L, arg);
+}
+
+void LuaJavaBridge::pushString(const char *arg, int length)
+{
+    lua_State *L = s_luaState;
+    lua_pushlstring(L, arg, length);
+}
+
+void LuaJavaBridge::pushInteger(int value)
+{
+    lua_State *L = s_luaState;
+    lua_pushinteger(L, value);
+}
+
+void LuaJavaBridge::pushNumber(double value)
+{
+    lua_State *L = s_luaState;
+    lua_pushnumber(L, value);
+}
+
+void LuaJavaBridge::pushNil(void)
+{
+    lua_State *L = s_luaState;
+    lua_pushnil(L);
+}
+
+void LuaJavaBridge::pushBoolean(int value)
+{
+    lua_State *L = s_luaState;
+    lua_pushboolean(L, value);
+}
+
 // ----------------------------------------
 
 // increase lua function reference counter, return functionId

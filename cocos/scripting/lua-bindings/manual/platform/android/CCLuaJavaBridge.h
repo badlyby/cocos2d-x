@@ -36,6 +36,14 @@ public:
 
     static int callLuaFunctionById(int functionId, const char *arg);
     static int callLuaGlobalFunction(const char *functionName, const char *arg);
+    static int getLuaGlobalFunction(const char *functionName);
+    static int executeFunction(int numargs, int top);
+    static void pushString(const char *arg);
+    static void pushString(const char *arg, int length);
+    static void pushInteger(int value);
+    static void pushNumber(double value);
+    static void pushNil(void);
+    static void pushBoolean(int value);
 
 private:
     typedef enum

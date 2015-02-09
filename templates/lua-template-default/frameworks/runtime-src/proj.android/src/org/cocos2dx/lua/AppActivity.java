@@ -33,6 +33,7 @@ import java.util.Enumeration;
 import java.util.ArrayList;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -122,6 +123,15 @@ public class AppActivity extends Cocos2dxActivity{
     
     public static String getLocalIpAddress() {
         return hostIPAdress;
+    }
+
+    public static void hello(){
+        int top = Cocos2dxLuaJavaBridge.getLuaGlobalFunction("print");
+	if(-1 != top)
+	{
+		Cocos2dxLuaJavaBridge.pushString("Hello world!");
+		Cocos2dxLuaJavaBridge.executeFunction(1,top);
+	}
     }
     
     private static native boolean nativeIsLandScape();
