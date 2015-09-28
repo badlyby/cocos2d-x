@@ -107,10 +107,12 @@ public:
      @return The integer value returned from the script function.
      */
     virtual int executeGlobalFunction(const char* functionName);
+    virtual int getGlobalFunction(const char* functionName);
 
     virtual void clean(void);
     virtual void pushInt(int intValue);
     virtual void pushFloat(float floatValue);
+    virtual void pushDouble(double floatValue);
     virtual void pushLong(long longValue);
     virtual void pushBoolean(bool boolValue);
     virtual void pushString(const char* stringValue);
