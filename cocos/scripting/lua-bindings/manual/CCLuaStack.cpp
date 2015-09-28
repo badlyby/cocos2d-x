@@ -329,6 +329,18 @@ int LuaStack::executeScriptFile(const char* filename)
     return rn;
 }
 
+int LuaStack::getGlobalFunction(const char* functionName)
+{
+    lua_getglobal(_state, functionName);       /* query function by name, stack: function */
+    if (!lua_isfunction(_state, -1))
+    {
+        CCLOG("[LUA ERROR] name '%s' does not represent a Lua function", functionName);
+        lua_pop(_state, 1);
+        return 0;
+    }
+    return 1;
+}
+
 int LuaStack::executeGlobalFunction(const char* functionName)
 {
     lua_getglobal(_state, functionName);       /* query function by name, stack: function */
@@ -352,6 +364,11 @@ void LuaStack::pushInt(int intValue)
 }
 
 void LuaStack::pushFloat(float floatValue)
+{
+    lua_pushnumber(_state, floatValue);
+}
+
+void LuaStack::pushDouble(double floatValue)
 {
     lua_pushnumber(_state, floatValue);
 }
